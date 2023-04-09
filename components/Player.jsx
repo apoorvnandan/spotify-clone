@@ -49,8 +49,10 @@ export default function Player({ globalCurrentTrackId, setGlobalCurrentTrackId, 
         } else {
             let token = ''
             if (typeof session.user.accessToken == 'string') {
+                console.log("assigning accessToken", session.user.accessToken)
                 token = session.user.accessToken
             } else {
+                console.log("assigning access_token", session.user.accessToken.access_token)
                 token = session.user.accessToken.access_token
             }
             const response = await fetch("https://api.spotify.com/v1/me/player/play", {

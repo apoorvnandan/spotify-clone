@@ -64,7 +64,7 @@ export default function Center({ globalPlaylistId, setGlobalPlaylistId, globalPl
         </header >
         <div onClick={() => signOut()} className="absolute z-20 top-5 right-8 flex items-center bg-black bg-opacity-70 text-white space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2">
             <img className="rounded-full w-7 h-7" src={session?.user.image} alt="profile pic" />
-            <h2 className="text-sm">{session?.user.name}</h2>
+            <h2 className="text-sm">Logout</h2>
             <ChevronDownIcon className="h-5 w-5" />
         </div>
         <div onScroll={(e) => changeOpacity(e.target.scrollTop)} className="relative -top-20 h-screen overflow-y-scroll scrollbar-hide bg-neutral-900">

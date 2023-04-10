@@ -9,19 +9,13 @@ export default function Sidebar({ globalPlaylistId, setGlobalPlaylistId }) {
     useEffect(() => {
         async function f() {
             if (session && session.user && session.user.accessToken) {
-                let token = ''
-                if (typeof session.user.accessToken == 'string') {
-                    token = session.user.accessToken
-                } else {
-                    token = session.user.accessToken.access_token
-                }
+                let token = session.user.accessToken
                 const response = await fetch("https://api.spotify.com/v1/me/playlists", {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 })
                 const data = await response.json()
-                console.log(data)
                 setPlaylists(data.items)
                 const storedPlaylist = window.localStorage.getItem('current_playlist');
                 if (storedPlaylist !== null) {

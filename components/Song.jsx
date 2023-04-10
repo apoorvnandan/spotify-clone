@@ -12,12 +12,7 @@ export default function Song({ order, track, globalCurrentTrackId, setGlobalCurr
         setGlobalIsTrackPlaying(true)
         console.log("playing", track.track.id)
         if (session && session.user && session.user.accessToken) {
-            let token = ''
-            if (typeof session.user.accessToken == 'string') {
-                token = session.user.accessToken
-            } else {
-                token = session.user.accessToken.access_token
-            }
+            let token = session.user.accessToken
             const response = await fetch("https://api.spotify.com/v1/me/player/play", {
                 method: "PUT",
                 headers: {

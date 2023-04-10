@@ -9,19 +9,14 @@ export default function Player({ globalCurrentTrackId, setGlobalCurrentTrackId, 
     const [volumne, setVolume] = useState(50);
 
     async function getCurrentlyPlaying() {
-        let token = ''
-        if (typeof session.user.accessToken == 'string') {
-            token = session.user.accessToken
-        } else {
-            token = session.user.accessToken.access_token
-        }
+        let token = session.user.accessToken
         const response = await fetch("https://api.spotify.com/v1/me/player/currently-playing", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
         if (response.status == 204) {
-            console.log("204 response")
+            console.log("204 response from currently playing")
             return;
         }
         const data = await response.json();
@@ -31,12 +26,7 @@ export default function Player({ globalCurrentTrackId, setGlobalCurrentTrackId, 
     async function handlePlayPause() {
         const currentlyPlayingData = await getCurrentlyPlaying();
         if (currentlyPlayingData && currentlyPlayingData.is_playing) {
-            let token = ''
-            if (typeof session.user.accessToken == 'string') {
-                token = session.user.accessToken
-            } else {
-                token = session.user.accessToken.access_token
-            }
+            let token = session.user.accessToken
             const response = await fetch("https://api.spotify.com/v1/me/player/pause", {
                 method: "PUT",
                 headers: {
@@ -47,14 +37,7 @@ export default function Player({ globalCurrentTrackId, setGlobalCurrentTrackId, 
                 setGlobalIsTrackPlaying(false)
             }
         } else {
-            let token = ''
-            if (typeof session.user.accessToken == 'string') {
-                console.log("assigning accessToken", session.user.accessToken)
-                token = session.user.accessToken
-            } else {
-                console.log("assigning access_token", session.user.accessToken.access_token)
-                token = session.user.accessToken.access_token
-            }
+            let token = session.user.accessToken
             const response = await fetch("https://api.spotify.com/v1/me/player/play", {
                 method: "PUT",
                 headers: {
@@ -70,19 +53,13 @@ export default function Player({ globalCurrentTrackId, setGlobalCurrentTrackId, 
     useEffect(() => {
         async function fetchSongInfo(trackId) {
             if (trackId) {
-                let token = ''
-                if (typeof session.user.accessToken == 'string') {
-                    token = session.user.accessToken
-                } else {
-                    token = session.user.accessToken.access_token
-                }
+                let token = session.user.accessToken
                 const response = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 })
                 const trackInfo = await response.json()
-                console.log({ trackInfo })
                 setSongInfo(trackInfo)
             }
         }
@@ -104,12 +81,10 @@ export default function Player({ globalCurrentTrackId, setGlobalCurrentTrackId, 
 
         }
         f();
-        console.log({ globalCurrentTrackId })
     }, [globalCurrentTrackId, session])
-    // bg-gradient-to-b from-black to-neutral-900
     return <div className="h-24 bg-neutral-800 border-t border-neutral-700 text-white grid grid-cols-3 text-xs md:text-base px-2 md:px-8">
         <div className="flex items-center space-x-4">
-            <img className="hidden md:inline h-10 w-10" src={songInfo?.album?.images[0]?.url} alt="" />
+            {songInfo?.album?.images[0]?.url && <img className="hidden md:inline h-10 w-10" src={songInfo?.album?.images[0]?.url} alt="" />}
             <div className="">
                 <h3 className="text-white text-sm">{songInfo?.name}</h3>
                 <p className="text-neutral-400 text-xs">{songInfo?.artists[0]?.name}</p>

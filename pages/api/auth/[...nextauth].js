@@ -8,10 +8,10 @@ async function refreshAcessToken(token) {
         spotifyApi.setRefreshToken(token.refreshToken)
 
         const { body: refreshedToken } = await spotifyApi.refreshAccessToken()
-
+        console.log('refreshed token', refreshedToken)
         return {
             ...token,
-            accessToken: refreshedToken,
+            accessToken: refreshedToken.access_token,
             accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000,
             refreshToken: refreshedToken.refresh_token ?? token.refreshToken
         }
@@ -48,7 +48,6 @@ export const authOptions = {
                 username: account.providerAccountId,
                 accessTokenExpires: account.expires_at * 1000
             }
-
             // token is valid
             if (Date.now() < token.accessTokenExpires) {
                 console.log("access token valid")
@@ -68,4 +67,6 @@ export const authOptions = {
 
     }
 }
+
+// token.access_token
 export default NextAuth(authOptions)
